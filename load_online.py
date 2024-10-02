@@ -40,7 +40,7 @@ def get_daily_articles():
     content = load_page(url)
     articles = extract_articles(content)
     if not articles:
-        print(f"There is no article yet for {today}!")
+        articles = [("", f"There is no article yet for {today}!", "")]
     with open('output.txt', 'w') as f:
         for href, hdr, txt in articles:
             f.writelines([hdr, '\r\n'])
@@ -48,6 +48,7 @@ def get_daily_articles():
             f.write(txt)
             f.write('\r\n')
             f.write('\r\n')
+    return articles
 
 
 
