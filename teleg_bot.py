@@ -11,7 +11,7 @@ send_url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 def send_post():
     articles = get_daily_articles()
     for href, hdr, txt in articles:
-        payload = f"<h3>{hdr}</h3><div>{txt}</div><a href='{href}'>{href}</a>"
+        payload = f"<b>{hdr}</b>&#10{txt}&#10<a>{href}</a>" # newline: &#10
         requests.post(send_url, json={'chat_id': chatId, 'parse_mode': 'HTML',
                                       'text': payload})
 
