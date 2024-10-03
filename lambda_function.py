@@ -1,3 +1,14 @@
+import json
+
+import os
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+TOKEN = os.getenv("TELE_BOT_TOKEN")
+chatId = os.getenv("CHANNEL_CHAT_ID")
+send_url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+
 import urllib.request
 from bs4 import BeautifulSoup as BS
 import re
@@ -39,17 +50,21 @@ def get_daily_articles():
 
     content = load_page(url)
     articles = extract_articles(content)
-    if not articles:
-        articles = [("", f"There is no article yet for {today}!", "")]
-    with open('output.txt', 'w') as f:
-        for href, hdr, txt in articles:
-            f.writelines([hdr, '\r\n'])
-            f.writelines([href, '\r\n'])
-            f.write(txt)
-            f.write('\r\n')
-            f.write('\r\n')
     return articles
 
+def send_post():
+    articles = get_daily_articles()
+    for href, hdr, txt in articles:
+        payload = f"<b>{hdr}</b>&#10&#10{txt}&#10&#10<a>{href}</a>&#10&#10 👉 https://t.me/aimleng" # newline: &#10
+        requests.post(send_url, json={'chat_id': chatId, 'parse_mode': 'HTML',
+                                      'text': payload})
+    return len(articles)
 
 
-
+def lambda_handler(event, context):
+    cnt = send_post()
+    print(f'Finished! {cnt} articles sent.')
+    return {
+        'statusCode': 200,
+        'body': json.dumps(f'Done! {cnt} articles.')
+    }
