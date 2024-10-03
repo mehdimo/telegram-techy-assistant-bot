@@ -3,6 +3,7 @@ import json
 import os
 import requests
 from dotenv import load_dotenv
+from time import sleep
 
 load_dotenv()
 TOKEN = os.getenv("TELE_BOT_TOKEN")
@@ -58,6 +59,7 @@ def send_post():
         payload = f"<b>{hdr}</b>&#10&#10{txt}&#10&#10<a>{href}</a>&#10&#10 👉 https://t.me/aimleng" # newline: &#10
         requests.post(send_url, json={'chat_id': chatId, 'parse_mode': 'HTML',
                                       'text': payload})
+        sleep(0.5)
     return len(articles)
 
 
