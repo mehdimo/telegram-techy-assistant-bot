@@ -11,6 +11,10 @@ class BaseNewsExtractor:
         return content
 
     @abc.abstractmethod
+    def get_name(self):
+        return "BaseNews"
+
+    @abc.abstractmethod
     def extract_articles(self, html_content):
         """Return a list of news headlines in the form of
         [[news_category, href, header, summary]]. If any of these elements

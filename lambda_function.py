@@ -20,8 +20,9 @@ def send_post():
     articles = []
     for source in sources:
         res = source.get_daily_articles()
+        print(f"# articles of {source.get_name()}: {len(res)}")
         articles.extend(res)
-
+    print(f"total: {len(articles)}")
     for cat, href, hdr, txt in articles:
         if cat:
             cat = f"#{cat}"

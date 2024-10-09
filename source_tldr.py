@@ -11,6 +11,9 @@ class SourceTLDR(BaseNewsExtractor):
         url = f"https://tldr.tech/ai/{today}"
         super().__init__(url=url)
 
+    def get_name(self):
+        return "TLDR"
+
     def extract_articles(self, html_content):
         soup = BS(html_content, features="html.parser")
         elements = soup.find_all('article')

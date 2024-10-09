@@ -6,6 +6,9 @@ class SourceTechCrunch(BaseNewsExtractor):
         url = "https://techcrunch.com/category/artificial-intelligence/"
         super().__init__(url=url)
 
+    def get_name(self):
+        return "TechCrunch"
+
     def extract_articles(self, html_content):
         soup = BS(html_content, features="html.parser")
         elements = soup.find_all('div', {"class": "loop-card__content"})
